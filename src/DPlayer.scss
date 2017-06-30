@@ -120,21 +120,41 @@
             display: inline-block !important;
         }
 
-        .dplayer-controller .dplayer-icons .dplayer-comment .dplayer-comment-box .dplayer-comment-input {
-            width: 200px;
+        .dplayer-controller {
+            .dplayer-icons {
+                .dplayer-icon {
+                    width: 40px;
+                }
+                .dplayer-comment {
+                    .dplayer-comment-box {
+                        .dplayer-comment-input {
+                            width: 200px;
+                        }
+                        .dplayer-comment-setting-box {
+                            left: 17px;
+                        }
+                    }
+                }
+                .dplayer-setting {
+                    .dplayer-setting-box {
+                        &.dplayer-setting-box-narrow {
+                            height: 134px;
+                            bottom: 40px;
+                        }
+                    }
+                    .dplayer-setting-speed-item {
+                        height: 20px;
+                        line-height: 20px;
+                        padding: 0 10px;
+                    }
+                }
+            }
         }
 
         .dplayer-comment-setting-title {
             display: none;
         }
 
-        .dplayer-controller .dplayer-icons .dplayer-comment .dplayer-comment-box .dplayer-comment-setting-box {
-            left: 17px;
-        }
-
-        .dplayer-controller .dplayer-icons .dplayer-icon {
-            width: 40px;
-        }
     }
 
     .dplayer-mask {

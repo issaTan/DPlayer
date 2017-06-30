@@ -147,6 +147,7 @@ const html = {
                     </button>
                     <div class="dplayer-setting-box"></div>
                 </div>
+                ${option.showFull ? `
                 <div class="dplayer-full">
                     <button class="dplayer-icon dplayer-full-in-icon">
                         ${svg('full-in')}
@@ -155,6 +156,7 @@ const html = {
                         ${svg('full')}
                     </button>
                 </div>
+                ` : ''}
             </div>
             <div class="dplayer-bar-wrap">
                 <div class="dplayer-bar-time hidden">00:00</div>
@@ -192,7 +194,7 @@ const html = {
 
     video: (current, pic, screenshot, preload, url) => `<video class="dplayer-video ${current ? `dplayer-video-current"` : ``}" ${pic ? `poster="${pic}"` : ``} webkit-playsinline playsinline ${screenshot ? `crossorigin="anonymous"` : ``} ${preload ? `preload="${preload}"` : ``} src="${url}"></video>`,
 
-    setting: (tran) => ({
+    setting: (tran, option) => ({
         'original': `
             <div class="dplayer-setting-item dplayer-setting-speed">
                 <span class="dplayer-label">${tran('Speed')}</span>
@@ -200,6 +202,7 @@ const html = {
                     ${svg('right')}
                 </div>
             </div>
+            ${option.showLoop ? `
             <div class="dplayer-setting-item dplayer-setting-loop">
                 <span class="dplayer-label">${tran('Loop')}</span>
                 <div class="dplayer-toggle">
@@ -207,8 +210,9 @@ const html = {
                     <label for="dplayer-toggle"></label>
                 </div>
             </div>
+            ` : '' }
             <div class="dplayer-setting-item dplayer-setting-showdan">
-                <span class="dplayer-label">${tran('Danmaku')}</span>
+                <span class="dplayer-label">${tran('Switch danmaku')}</span>
                 <div class="dplayer-toggle">
                     <input class="dplayer-showdan-setting-input" type="checkbox" name="dplayer-toggle-dan">
                     <label for="dplayer-toggle-dan"></label>

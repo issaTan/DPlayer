@@ -307,7 +307,7 @@ class DPlayer {
          * setting
          */
         this.danOpacity = localStorage.getItem('DPlayer-opacity') || 0.7;
-        const settingHTML = html.setting(this.tran);
+        const settingHTML = html.setting(this.tran, this.option);
 
         // toggle setting box
         const settingIcon = this.element.getElementsByClassName('dplayer-setting-icon')[0];
@@ -339,25 +339,28 @@ class DPlayer {
         });
 
         this.loop = this.option.loop;
+        this.showLoop = this.option.showLoop;
         const danContainer = this.element.getElementsByClassName('dplayer-danmaku')[0];
         let showdan = true;
         const settingEvent = () => {
             // loop control
-            const loopEle = this.element.getElementsByClassName('dplayer-setting-loop')[0];
-            const loopToggle = loopEle.getElementsByClassName('dplayer-toggle-setting-input')[0];
+            if (this.showLoop) {
+                const loopEle = this.element.getElementsByClassName('dplayer-setting-loop')[0];
+                const loopToggle = loopEle.getElementsByClassName('dplayer-toggle-setting-input')[0];
 
-            loopToggle.checked = this.loop;
+                loopToggle.checked = this.loop;
 
-            loopEle.addEventListener('click', () => {
-                loopToggle.checked = !loopToggle.checked;
-                if (loopToggle.checked) {
-                    this.loop = true;
-                }
-                else {
-                    this.loop = false;
-                }
-                closeSetting();
-            });
+                loopEle.addEventListener('click', () => {
+                    loopToggle.checked = !loopToggle.checked;
+                    if (loopToggle.checked) {
+                        this.loop = true;
+                    }
+                    else {
+                        this.loop = false;
+                    }
+                    closeSetting();
+                });
+            }
 
             // show danmaku control
             const showDanEle = this.element.getElementsByClassName('dplayer-setting-showdan')[0];
@@ -538,10 +541,10 @@ class DPlayer {
             const danmaku = {
                 text: htmlEncode(danmakuData.text),
                 color: danmakuData.color,
-                type: danmakuData.type
+                type: danmakuData.type,
+                self: true
             };
-            const item = this.pushDanmaku(danmaku);
-            item.style.border = `2px solid ${this.option.theme}`;
+            this.pushDanmaku(danmaku);
         };
 
         const closeCommentSetting = () => {
@@ -624,6 +627,7 @@ class DPlayer {
         /**
          * full screen
          */
+        
         const resetAnimation = () => {
             const danWidth = danContainer.offsetWidth;
             const items = this.element.getElementsByClassName('dplayer-danmaku-item');
@@ -641,45 +645,47 @@ class DPlayer {
         this.element.addEventListener('webkitfullscreenchange', () => {
             resetAnimation();
         });
-        // browser full screen
-        this.element.getElementsByClassName('dplayer-full-icon')[0].addEventListener('click', () => {
-            if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {
-                if (this.element.requestFullscreen) {
-                    this.element.requestFullscreen();
+        if (this.option.showFull) {
+            // browser full screen
+            this.element.getElementsByClassName('dplayer-full-icon')[0].addEventListener('click', () => {
+                if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {
+                    if (this.element.requestFullscreen) {
+                        this.element.requestFullscreen();
+                    }
+                    else if (this.element.mozRequestFullScreen) {
+                        this.element.mozRequestFullScreen();
+                    }
+                    else if (this.element.webkitRequestFullscreen) {
+                        this.element.webkitRequestFullscreen();
+                    }
+                    else if (this.video.attr('webkitEnterFullscreen')) {   // Safari for iOS
+                        this.video.current.webkitEnterFullscreen();
+                    }
                 }
-                else if (this.element.mozRequestFullScreen) {
-                    this.element.mozRequestFullScreen();
+                else {
+                    if (document.cancelFullScreen) {
+                        document.cancelFullScreen();
+                    }
+                    else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    }
+                    else if (document.webkitCancelFullScreen) {
+                        document.webkitCancelFullScreen();
+                    }
                 }
-                else if (this.element.webkitRequestFullscreen) {
-                    this.element.webkitRequestFullscreen();
-                }
-                else if (this.video.attr('webkitEnterFullscreen')) {   // Safari for iOS
-                    this.video.current.webkitEnterFullscreen();
-                }
-            }
-            else {
-                if (document.cancelFullScreen) {
-                    document.cancelFullScreen();
-                }
-                else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
-                }
-                else if (document.webkitCancelFullScreen) {
-                    document.webkitCancelFullScreen();
-                }
-            }
-            resetAnimation();
-        });
-        // web full screen
-        this.element.getElementsByClassName('dplayer-full-in-icon')[0].addEventListener('click', () => {
-            if (this.element.classList.contains('dplayer-fulled')) {
-                this.element.classList.remove('dplayer-fulled');
-            }
-            else {
-                this.element.classList.add('dplayer-fulled');
                 resetAnimation();
-            }
-        });
+            });
+            // web full screen
+            this.element.getElementsByClassName('dplayer-full-in-icon')[0].addEventListener('click', () => {
+                if (this.element.classList.contains('dplayer-fulled')) {
+                    this.element.classList.remove('dplayer-fulled');
+                }
+                else {
+                    this.element.classList.add('dplayer-fulled');
+                    resetAnimation();
+                }
+            });
+        }
 
         /**
          * hot key
@@ -1006,6 +1012,7 @@ class DPlayer {
             item.innerHTML = danmaku[i].text;
             item.style.opacity = this.danOpacity;
             item.style.color = danmaku[i].color;
+            danmaku[i].self ? item.style.border = `2px solid ${this.option.theme}` : '';
             item.addEventListener('animationend', () => {
                 danContainer.removeChild(item);
             });

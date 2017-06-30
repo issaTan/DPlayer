@@ -13,6 +13,8 @@ module.exports = (option) => {
         autoplay: false,
         theme: '#b7daff',
         loop: false,
+        showLoop: true,
+        showFull: true,
         lang: navigator.language.indexOf('zh') !== -1 ? 'zh' : 'en',
         screenshot: false,
         hotkey: true,
