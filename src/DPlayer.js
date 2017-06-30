@@ -1,4 +1,6 @@
-console.log('\n %c DPlayer 1.4.1 %c http://dplayer.js.org \n\n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;');
+/**
+ * forked from DIYgod/DPlayer（https://github.com/DIYgod/DPlayer）
+ */
 
 require('./DPlayer.scss');
 const utils = require('./utils.js');
