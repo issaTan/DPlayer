@@ -17,14 +17,14 @@
             .dplayer-danmaku-top,
             .dplayer-danmaku-bottom {
                 &.dplayer-danmaku-move {
-                    animation: danmaku-center 6s linear;
+                    animation: danmaku-center 8s linear;
                     animation-play-state: paused;
                 }
             }
 
             .dplayer-danmaku-right {
                 &.dplayer-danmaku-move {
-                    animation: danmaku 8s linear;
+                    animation: danmaku 14s linear;
                     animation-play-state: paused;
                 }
             }
@@ -137,7 +137,7 @@
                 }
                 .dplayer-setting {
                     .dplayer-setting-box {
-                        &.dplayer-setting-box-narrow {
+                        .dplayer-setting-box-narrow {
                             height: 134px;
                             bottom: 40px;
                         }
@@ -208,7 +208,7 @@
             user-select: none;
             cursor: default;
             white-space: nowrap;
-            text-shadow: .5px .5px .5px rgba(0,0,0,.5);
+            text-shadow: rgb(0, 0, 0) 1px 0px 1px, rgb(0, 0, 0) 0px 1px 1px, rgb(0, 0, 0) 0px -1px 1px, rgb(0, 0, 0)-1px 0px 1px;
 
             &--demo {
                 position: absolute;
@@ -223,7 +223,7 @@
 
             &.dplayer-danmaku-move {
                 will-change: transform;
-                animation: danmaku 5s linear;
+                animation: danmaku 10s linear;
                 animation-play-state: paused;
             }
         }
@@ -243,7 +243,7 @@
 
             &.dplayer-danmaku-move {
                 will-change: visibility;
-                animation: danmaku-center 4s linear;
+                animation: danmaku-center 6s linear;
                 animation-play-state: paused;
             }
         }
@@ -584,6 +584,13 @@
                         }
                     }
                 }
+            }
+
+            .dplayer-showdan {
+                display:inline-block;
+                min-width:96px;
+                height:100%;
+                margin-right:10px
             }
 
             .dplayer-setting {
